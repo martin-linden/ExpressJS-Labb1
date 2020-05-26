@@ -9,6 +9,11 @@ const logger = require('./middleware/logger');
 
 const app = express();
 
+// body parser middleware
+app.use(express.json());
+// handle url encoded data
+app.use(express.urlencoded({ extended: false }));
+
 //initialize middleware - every time I make a request the middleware will run
 /* app.use(logger); */
 

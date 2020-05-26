@@ -1,4 +1,5 @@
 const express = require('express');
+const uuid = require('uuid');
 const router = express.Router();
 //import members
 const members = require('../../Members');
@@ -21,6 +22,29 @@ router.get('/:id', (req, res) => {
 	} else {
 		res.status(400).json({ msg: 'Member not found' });
 	}
+});
+
+// Create member (handle post request)
+router.post('/', (req, res) => {
+	/* res.send(req.body); */
+	const newMember = {
+		id: uuid.v4(),
+		name: req.body.name,
+		email: req.body.email,
+		status: 'active'
+	};
+
+	// Make sure name and email are sent with the request
+	if (!newMember.name || !newMember.email) {
+		return res
+			.status(400)
+			.json({ msg: 'Please include name and email' });
+	}
+
+	members.push(newMember);
+
+	//return entire array of members including the new one
+	res.json(members);
 });
 
 module.exports = router;
